@@ -1,0 +1,1 @@
+This repository contains some of the sample codes, snippets doing trivial things.
