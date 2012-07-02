@@ -14,6 +14,8 @@ object test {
 	case _ => throw new NoSuchElementException
       }
     val a = penultimate(List(1,2,3,4))
+    val b = penultimate(List("a","b","c","d"))
     println(a)
+    println(b)
   }
 }
