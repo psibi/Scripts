@@ -3,7 +3,8 @@ README:
 The main purpose of writing this README is that official doc's command don't work.
 
 Working Example of SWIG with C++:
-1) g++ -fpic -c example.c example_wrap.cxx -I /usr/include/python2.7/
-2) g++ --shared example.o example_wrap.o  -o _example.so
+1) swig -c++ -python example.i
+2) g++ -fpic -c example.c example_wrap.cxx -I /usr/include/python2.7/
+3) g++ --shared example.o example_wrap.o  -o _example.so
 
 Then start the Python interpreter and import example to verify it's working.
