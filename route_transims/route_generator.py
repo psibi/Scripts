@@ -9,6 +9,7 @@ class routes:
         for line in file_handler:
             route_pair = tuple(line.rstrip("\n").split(","))
             self.nodes.append(route_pair)
+        file_handler.close()
 
     def show_nodes(self):
         print self.nodes
