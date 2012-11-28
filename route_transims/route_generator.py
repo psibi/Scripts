@@ -20,7 +20,10 @@ class routes:
                 if a[1] == node_pair[0]:
                     return node_pair
 
-    
+    def prettify(self,ls):
+        a = reduce(lambda a,b:(a[:-1])+b,ls)
+        print a
+        
     def build_path(self):
         temp_route = []
         flag = True
@@ -38,12 +41,12 @@ class routes:
                     if count == 10: #This check avoids circular loop by limiting the maximum routes to ten.
                         count = 0
                         if temp_route:
-                            print temp_route
+                            self.prettify(temp_route)
                         temp_route = []
                         break
                 else:
                     if temp_route:
-                        print temp_route
+                        self.prettify(temp_route)
                     temp_route = []
                     break
 
