@@ -56,12 +56,12 @@ class routes:
             pair = node_pair
             while (flag):
                 a = list(map(self.check_num,[pair]))
-                #print a
+                print("A:",a)
                 if not None in a:
                     temp_route.append(a[0])
                     pair = a[0]
                     count = count + 1
-                    if count == 10: #This check avoids circular loop by limiting the maximum routes to ten.
+                    if count == 10: #Limits maximum route length to ten.
                         count = 0
                         if temp_route:
                             self.prettify(temp_route)
@@ -98,5 +98,5 @@ class routes:
 if __name__=="__main__":
     r = routes("routes.csv")
     r.build_path()
-    r.create_routeheader_file()
-    r.create_routenodes_file()
+    #r.create_routeheader_file()
+    #r.create_routenodes_file()

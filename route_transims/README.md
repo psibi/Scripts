@@ -16,11 +16,6 @@ How to Use
 3. Run the script in Python 3. (Yes it's Python 3)
 4. File named Route_Nodes.txt and Route_Header.txt will be created on the same directory.
 
-
-To Do:
--------
-1. Remove Circular dependancy problem in a sane way. As of now, maximum route path length is limited to ten and that may contain duplicates. 
- 
 License:
 --------
 GNU General Public License v3 (GPLv3)
