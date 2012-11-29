@@ -56,7 +56,7 @@ class routes:
                     break
                 
     def write_routeheader_file(self,node_no):
-        rheader_file = open("/home/sibi/Documents/Scripts/route_transims/Route_Header.txt","a")
+        rheader_file = open("Route_Header.txt","a")
         node = str(node_no)
         print(node+"\tRoute "+node+" \tBUS",file=rheader_file)
         rheader_file.close()
@@ -76,9 +76,6 @@ class routes:
         total_routes = len(nodes_gt4)
         print("total routes:",total_routes)
         list(map(self.write_routeheader_file,list(range(total_routes))))
-        #pnodes_gt4 = map(lambda x:str(reduce(lambda y,z:y + "\t" + z,x)),nodes_gt4)
-        #print(pnodes_gt4)        
-      
         
 if __name__=="__main__":
     r = routes("routes.csv")
