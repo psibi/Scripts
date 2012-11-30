@@ -33,7 +33,7 @@ class routes:
         self.rnodes_file = open("Route_Nodes.txt","a")
 
     def show_nodes(self):
-        print(self.nodes)
+        print(self.generated_path)
 
     def check_num(self,a):
         for node_pair in self.nodes:
@@ -44,10 +44,17 @@ class routes:
 
     def prettify(self,ls):
         a = reduce(lambda a,b:(a[:-1])+b,ls)
-        self.generated_path.append(a)
+        path = []
+        #For Unique path. No duplicate nodes present. Ciruclar dependency problem removed.
+        for element in a:
+            if element not in path:
+                path.append(element)
+            else:
+                break
+        self.generated_path.append(path)
         #print a
         
-    def build_path(self):
+    def build_path(self,max_path_length=10):
         temp_route = []
         flag = True
         count = 0
@@ -56,12 +63,12 @@ class routes:
             pair = node_pair
             while (flag):
                 a = list(map(self.check_num,[pair]))
-                print("A:",a)
+                #print("A:",a)
                 if not None in a:
                     temp_route.append(a[0])
                     pair = a[0]
                     count = count + 1
-                    if count == 10: #Limits maximum route length to ten.
+                    if count == max_path_length:
                         count = 0
                         if temp_route:
                             self.prettify(temp_route)
@@ -97,6 +104,7 @@ class routes:
         
 if __name__=="__main__":
     r = routes("routes.csv")
-    r.build_path()
-    #r.create_routeheader_file()
-    #r.create_routenodes_file()
+    r.build_path() #Max path length can be increased from 10 by passing a parameter here.
+    #r.show_nodes()
+    r.create_routeheader_file()
+    r.create_routenodes_file()
