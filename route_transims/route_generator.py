@@ -26,11 +26,33 @@ class routes:
         self.generated_path = []
         self.generated_route = []
         self.path = []
+        self.lane_data = []
+        self.lane_connectivity_data = []
         for line in file_handler:
             route_pair = tuple(line.rstrip("\n").split(","))
             self.nodes.append(route_pair)
         file_handler.close()
         self.rnodes_file = open("Route_Nodes.txt","a")
+
+    def validate_lane_connectivity(self,fname="lc.csv"):
+        fhandler = open(fname,"r")
+        for line in fhandler:
+            line_data = tuple(line.rstrip("\n").split(","))
+            self.lane_connectivity_data.append(line_data)
+        fhandler.close()
+        self.get_outlink_of_inlink(91,3363);
+        
+    def get_inlinks(self,node):
+        node_data = tuple(filter(lambda x:int(x[0])==node,self.lane_connectivity_data))
+        int_node_data = tuple(map(lambda t:tuple(map(int,t)),node_data))
+        in_link_data = tuple(reduce(lambda accumulator,y: accumulator + (y[1],) if y[1] not in accumulator else accumulator,node_data,()))
+        return in_link_data
+
+    def get_outlink_of_inlink(self,node,inlink):
+        node_data = tuple(filter(lambda x:int(x[0])==node,self.lane_connectivity_data))
+        int_node_data = tuple(map(lambda t:tuple(map(int,t)),node_data))
+        outlinks = tuple(reduce(lambda x,y:x+(y[2],) if inlink == y[1] and y[2] not in x else x,int_node_data,())) 
+        return outlinks
 
     def show_nodes(self):
         print(self.generated_path)
@@ -54,7 +76,7 @@ class routes:
         self.generated_path.append(path)
         #print a
         
-    def build_path(self,max_path_length=10):
+    def build_path(self,max_path_length=30):
         temp_route = []
         flag = True
         count = 0
@@ -104,7 +126,9 @@ class routes:
         
 if __name__=="__main__":
     r = routes("routes.csv")
-    r.build_path() #Max path length can be increased from 10 by passing a parameter here.
+    #r.build_path() #Max path length can be increased from 10 by passing a parameter here.
     #r.show_nodes()
-    r.create_routeheader_file()
-    r.create_routenodes_file()
+    #r.create_routeheader_file()
+    #r.create_routenodes_file()
+    r.validate_lane_connectivity();
+    
