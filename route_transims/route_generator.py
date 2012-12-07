@@ -40,8 +40,7 @@ class routes:
             line_data = tuple(line.rstrip("\n").split(","))
             self.lane_connectivity_data.append(line_data)
         fhandler.close()
-        self.get_outlink_of_inlink(91,3363);
-        
+               
     def get_inlinks(self,node):
         node_data = tuple(filter(lambda x:int(x[0])==node,self.lane_connectivity_data))
         int_node_data = tuple(map(lambda t:tuple(map(int,t)),node_data))
@@ -123,6 +122,40 @@ class routes:
         total_routes = len(nodes_gt4)
         print("total routes:",total_routes)
         list(map(self.write_routeheader_file,list(range(total_routes))))
+
+    def _route_verification(self,path):
+        first_node = path[0]
+        second_node = path[1]
+        fnode_inlinks = self.get_inlinks(first_node)
+        snode_inlinks = self.get_inlinks(second_node)
+        #We have first and second node inlinks.
+        intersection_node = tuple(set(fnode_inlinks) & set(snode_inlinks))
+        print(intersection_node[0])
+        flag = False
+        for i in range(len(path)-2):
+            try:
+                ith_node = path[i+2]
+                outlink = self.get_outlink_of_inlink(int(path[i+1]),int(intersection_node[0]))
+                inlinks = self.get_inlinks(path[i+3])
+                print(outlink,inlinks)
+                intersection_data = tuple(set(outlink) & set(inlinks))
+                if not intersection_data:
+                    flag = True
+                    break
+            except IndexError:
+                break
+        if (flag):
+            print("incorrect path")
+        else:
+            print("correct path")
+          
+            
+
+    def validate_lc_data(self):
+        self._route_verification((80,81,2247,1905))
+        #for path in self.generated_path:
+        #    int_path = tuple(map(int,path))
+        #    self._route_verification(int_path)
         
 if __name__=="__main__":
     r = routes("routes.csv")
@@ -131,4 +164,6 @@ if __name__=="__main__":
     #r.create_routeheader_file()
     #r.create_routenodes_file()
     r.validate_lane_connectivity();
+    r.validate_lc_data()
+    
     
