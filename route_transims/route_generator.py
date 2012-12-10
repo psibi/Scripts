@@ -155,8 +155,6 @@ class routes:
         else:
             return True
           
-            
-
     def validate_lc_data(self):
         min_four_paths = list(filter(lambda x:len(x)>=4,self.generated_path))
         self.correct_path = []
@@ -192,5 +190,3 @@ if __name__=="__main__":
     r.validate_lc_data()
     r.create_routeheader_file()
     r.create_routenodes_file()
-
-    
