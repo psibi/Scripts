@@ -3,6 +3,11 @@ Transims Route File Generator for TransitNet
 
 This script creates basic Route Header and Route Nodes files. 
 
+Execution
+---------
+
+    $ python3 route_generator.py
+
 Inputs for the Script
 ----------------------
 It needs a csv file as input which should be composed of ANODES and BNODES in the following format:
