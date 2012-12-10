@@ -108,7 +108,7 @@ class routes:
         rheader_file.close()
 
     def create_routenodes_file(self,length_of_route=4):
-        nodes_gt4 = list(filter(lambda x:len(x)>=length_of_route,self.generated_path))
+        nodes_gt4 = list(filter(lambda x:len(x)>=length_of_route,self.correct_path))
         count = -1
         for node in nodes_gt4:
             count = count + 1
@@ -118,7 +118,7 @@ class routes:
         self.rnodes_file.close()
 
     def create_routeheader_file(self,length_of_route=4):
-        nodes_gt4 = list(filter(lambda x:len(x)>=length_of_route,self.generated_path))
+        nodes_gt4 = list(filter(lambda x:len(x)>=length_of_route,self.correct_path))
         total_routes = len(nodes_gt4)
         print("total routes:",total_routes)
         list(map(self.write_routeheader_file,list(range(total_routes))))
@@ -130,40 +130,67 @@ class routes:
         snode_inlinks = self.get_inlinks(second_node)
         #We have first and second node inlinks.
         intersection_node = tuple(set(fnode_inlinks) & set(snode_inlinks))
-        print(intersection_node[0])
+        if not intersection_node:
+            return False
+        #print(intersection_node[0])
         flag = False
         for i in range(len(path)-2):
             try:
                 ith_node = path[i+2]
+                #print("ith node",ith_node)
                 outlink = self.get_outlink_of_inlink(int(path[i+1]),int(intersection_node[0]))
-                inlinks = self.get_inlinks(path[i+3])
-                print(outlink,inlinks)
-                intersection_data = tuple(set(outlink) & set(inlinks))
-                if not intersection_data:
+                #print("outlinks",outlink)
+                inlinks = tuple(map(int,self.get_inlinks(ith_node)))
+                #print("inlinks",inlinks)
+                #print(outlink,inlinks)
+                intersection_node = tuple(set(outlink) & set(inlinks))
+                #print("Ints. data.",intersection_node)
+                if not intersection_node:
                     flag = True
                     break
             except IndexError:
                 break
         if (flag):
-            print("incorrect path")
+            return False
         else:
-            print("correct path")
+            return True
           
             
 
     def validate_lc_data(self):
-        self._route_verification((80,81,2247,1905))
-        #for path in self.generated_path:
-        #    int_path = tuple(map(int,path))
-        #    self._route_verification(int_path)
-        
+        min_four_paths = list(filter(lambda x:len(x)>=4,self.generated_path))
+        self.correct_path = []
+        counter = 0
+        ccounter = 0
+        for path in min_four_paths:
+            int_path = tuple(map(int,path))
+            status = self._route_verification(int_path)
+        #status = self._route_verification((80,81,2247,1905,114,115,95,96,1908,193,1115,97,91,100,1907))
+            if status:
+                self.correct_path.append(int_path)
+                ccounter = ccounter + 1
+            else:
+                counter = counter + 1
+        print("Correct:",ccounter)
+        print("Incorrect:",counter)
+        print("Length of self.correct_path",len(self.correct_path))
+    
+    def single_validate_lc_data(self):
+        #status = self._route_verification((118,115,95,96,1908,193,1115,97,91,100,1907,140,151,152,107,134,220,460,459,42,115))
+        status = self._route_verification((459,42,115))
+        if status:
+            print("Correct path")
+        else:
+            print("Incorrect path")
+    
 if __name__=="__main__":
     r = routes("routes.csv")
-    #r.build_path() #Max path length can be increased from 10 by passing a parameter here.
+    r.build_path() #Max path length can be increased from 10 by passing a parameter here.
     #r.show_nodes()
-    #r.create_routeheader_file()
-    #r.create_routenodes_file()
     r.validate_lane_connectivity();
+    #r.single_validate_lc_data()
     r.validate_lc_data()
-    
+    r.create_routeheader_file()
+    r.create_routenodes_file()
+
     
