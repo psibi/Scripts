@@ -20,8 +20,9 @@
 from functools import reduce
 
 class routes:
-    def __init__(self,filename):
+    def __init__(self,filename,time_period):
         file_handler = open(filename,"r")
+        self.time_period = time_period
         self.nodes = []
         self.generated_path = []
         self.generated_route = []
@@ -104,7 +105,8 @@ class routes:
                 
     def write_routeheader_file(self,node_no):
         node = str(node_no)
-        print(node+"\tRoute "+node+" \tBUS"+"\t10\t10",file=self.rheader_file)
+        headway = reduce(lambda x,y:x+"\t10",list(range(self.time_period*2)),"")
+        print(node+"\tRoute "+node+" \tBUS"+headway,file=self.rheader_file)
 
     def create_routenodes_file(self,length_of_route=4):
         nodes_gt4 = list(filter(lambda x:len(x)>=length_of_route,self.correct_path))
@@ -182,7 +184,7 @@ class routes:
             print("Incorrect path")
     
 if __name__=="__main__":
-    r = routes("routes.csv")
+    r = routes("routes.csv",4)
     r.build_path() #Max path length can be increased from 10 by passing a parameter here.
     #r.show_nodes()
     r.validate_lane_connectivity();
