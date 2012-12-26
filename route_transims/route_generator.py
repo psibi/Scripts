@@ -33,6 +33,7 @@ class routes:
             self.nodes.append(route_pair)
         file_handler.close()
         self.rnodes_file = open("Route_Nodes.txt","a")
+        self.rheader_file = open("Route_Header.txt","a")
 
     def validate_lane_connectivity(self,fname="lc.csv"):
         fhandler = open(fname,"r")
@@ -102,10 +103,8 @@ class routes:
                     break
                 
     def write_routeheader_file(self,node_no):
-        rheader_file = open("Route_Header.txt","a")
         node = str(node_no)
-        print(node+"\tRoute "+node+" \tBUS",file=rheader_file)
-        rheader_file.close()
+        print(node+"\tRoute "+node+" \tBUS"+"\t10\t10",file=rheader_file)
 
     def create_routenodes_file(self,length_of_route=4):
         nodes_gt4 = list(filter(lambda x:len(x)>=length_of_route,self.correct_path))
@@ -122,6 +121,7 @@ class routes:
         total_routes = len(nodes_gt4)
         print("total routes:",total_routes)
         list(map(self.write_routeheader_file,list(range(total_routes))))
+        self.rheader_file.close()
 
     def _route_verification(self,path):
         first_node = path[0]
