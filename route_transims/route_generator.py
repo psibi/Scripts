@@ -104,7 +104,7 @@ class routes:
                 
     def write_routeheader_file(self,node_no):
         node = str(node_no)
-        print(node+"\tRoute "+node+" \tBUS"+"\t10\t10",file=rheader_file)
+        print(node+"\tRoute "+node+" \tBUS"+"\t10\t10",file=self.rheader_file)
 
     def create_routenodes_file(self,length_of_route=4):
         nodes_gt4 = list(filter(lambda x:len(x)>=length_of_route,self.correct_path))
