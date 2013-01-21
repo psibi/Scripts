@@ -45,15 +45,11 @@
 (global-set-key (kbd "C-x p") 'package-list-packages-no-fetch)
 
 ;;Python Development Environment
-;;Install Rope, Ropemode, Ropemacs (sudo pip install rope ropemode ropemacs)
-;;Pymacs from ELPA doesn't work. Copy latest tar from https://github.com/pinard/Pymacs/ to some location.
-;;Rename untarred folder to pinard-pymacs and move it to ~/.emacs.d/elpa. Run make and sudo python setup.py install on it.
-(add-to-list 'load-path "~/.emacs.d/elpa/pinard-pymacs")
-(autoload 'pymacs-apply "pymacs")
-(autoload 'pymacs-call "pymacs")
-(autoload 'pymacs-eval "pymacs" nil t)
-(autoload 'pymacs-exec "pymacs" nil t)
-(autoload 'pymacs-load "pymacs" nil t)
-(pymacs-load "ropemacs" "rope-")
-(setq ropemacs-enable-autoimport t)
-
+;;Install jedi for Auto-completion in Python mode. For key bindings see: C-h v jedi:setup-keys
+;; Install 3 Python dependencies: sudo pip install jedi epc argparse
+;; Install 3 Emacs ELPA packages: epc deferred auto-complete
+;; Clone a directory named jedi into elpa from: git://github.com/tkf/emacs-jedi.git
+(add-to-list 'load-path "~/.emacs.d/elpa/jedi")
+(autoload 'jedi:setup "jedi" nil t)
+(add-hook 'python-mode-hook 'jedi:setup)
+(setq jedi:setup-keys t)
