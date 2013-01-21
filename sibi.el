@@ -17,6 +17,13 @@
 (require 'window-number)
 (window-number-meta-mode)
 
+;;Install auto-complete and autopair
+(require 'auto-complete)
+(require 'autopair)
+(require 'auto-complete-config)
+(ac-config-default)
+(autopair-global-mode) ;; enable autopair in all buffers
+
 ;;Fullscreen mode - Press M-x fullscreen for switching to Fullscreen mode.
 (defun fullscreen ()
   (interactive)
@@ -35,4 +42,18 @@
 
 ;; Bind C-c C-r key for refreshing of a file
 (global-set-key (kbd "C-c C-r") 'revert-buffer)
+(global-set-key (kbd "C-x p") 'package-list-packages-no-fetch)
+
+;;Python Development Environment
+;;Install Rope, Ropemode, Ropemacs (sudo pip install rope ropemode ropemacs)
+;;Pymacs from ELPA doesn't work. Copy latest tar from https://github.com/pinard/Pymacs/ to some location.
+;;Rename untarred folder to pinard-pymacs and move it to ~/.emacs.d/elpa. Run make and sudo python setup.py install on it.
+(add-to-list 'load-path "~/.emacs.d/elpa/pinard-pymacs")
+(autoload 'pymacs-apply "pymacs")
+(autoload 'pymacs-call "pymacs")
+(autoload 'pymacs-eval "pymacs" nil t)
+(autoload 'pymacs-exec "pymacs" nil t)
+(autoload 'pymacs-load "pymacs" nil t)
+(pymacs-load "ropemacs" "rope-")
+(setq ropemacs-enable-autoimport t)
 
