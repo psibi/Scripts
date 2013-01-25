@@ -24,7 +24,7 @@
 (ac-config-default)
 (autopair-global-mode) ;; enable autopair in all buffers
 
-;;Tramp for editing protected files in existing Emacs session.(C-c C-f /sudo)
+;;Tramp for editing protected files in existing Emacs session.(C-x C-f /sudo)
 (require 'tramp)
 (setq tramp-default-method "ssh")
 
