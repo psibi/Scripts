@@ -57,3 +57,7 @@
 (autoload 'jedi:setup "jedi" nil t)
 (add-hook 'python-mode-hook 'jedi:setup)
 (setq jedi:setup-keys t)
+
+;;SML MODE (Need to change the path manually. Set it where you can locate `sml`)
+(setenv "PATH" (concat "/home/sibi/Downloads/bin:" (getenv "PATH")))
+(setq exec-path (cons "/home/sibi/Downloads/bin" exec-path))
