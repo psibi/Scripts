@@ -17,6 +17,17 @@
 (require 'window-number)
 (window-number-meta-mode)
 
+;;Install auto-complete and autopair
+(require 'auto-complete)
+(require 'autopair)
+(require 'auto-complete-config)
+(ac-config-default)
+(autopair-global-mode) ;; enable autopair in all buffers
+
+;;Tramp for editing protected files in existing Emacs session.(C-x C-f /sudo)
+(require 'tramp)
+(setq tramp-default-method "ssh")
+
 ;;Fullscreen mode - Press M-x fullscreen for switching to Fullscreen mode.
 (defun fullscreen ()
   (interactive)
@@ -35,4 +46,18 @@
 
 ;; Bind C-c C-r key for refreshing of a file
 (global-set-key (kbd "C-c C-r") 'revert-buffer)
+(global-set-key (kbd "C-x p") 'package-list-packages-no-fetch)
 
+;;Python Development Environment
+;;Install jedi for Auto-completion in Python mode. For key bindings see: C-h v jedi:setup-keys
+;; Install 3 Python dependencies: sudo pip install jedi epc argparse
+;; Install 3 Emacs ELPA packages: epc deferred auto-complete
+;; Clone a directory named jedi into elpa from: git://github.com/tkf/emacs-jedi.git
+(add-to-list 'load-path "~/.emacs.d/elpa/jedi")
+(autoload 'jedi:setup "jedi" nil t)
+(add-hook 'python-mode-hook 'jedi:setup)
+(setq jedi:setup-keys t)
+
+;;SML MODE (Need to change the path manually. Set it where you can locate `sml`)
+(setenv "PATH" (concat "/home/sibi/Downloads/bin:" (getenv "PATH")))
+(setq exec-path (cons "/home/sibi/Downloads/bin" exec-path))
