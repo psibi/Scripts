@@ -42,14 +42,25 @@ fun create_path path_list =
         aux path_list []
     end
 
+(*Convert string to int * int tuples*)
+fun toPair s =
+    let
+      val s' = String.substring(s, 0, size s-2)
+    in
+      case List.mapPartial Int.fromString (String.tokens (fn c => c = #",") s') of
+          a::b::[] => (a,b)
+    end
+
 (*Read files*)
 fun read_routes filename =
     let
         val ins = TextIO.openIn filename
-        fun aux(copt: char option) =
+        fun aux(copt: string option) =
             case copt of
-                NONE => []
-              | SOME line => line :: aux(TextIO.input1 ins)
+                NONE => (TextIO.closeIn ins; [])
+              | SOME line => toPair(line) :: aux(TextIO.inputLine ins)
     in
-        aux(TextIO.input1 ins)
+        aux(TextIO.inputLine ins)
     end
+
+val generate_route = create_path o read_routes
