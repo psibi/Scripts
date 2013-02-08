@@ -51,6 +51,17 @@ fun toPair s =
           a::b::[] => (a,b)
     end
 
+fun flatten_path path_list =
+    let 
+        fun aux xs acc =
+            case xs of
+                [] => acc
+              | (a,b)::[] => acc @ [b]
+              | (a,b)::(_,d)::tail => aux tail (acc @ [a,b,d])
+    in
+        aux path_list []
+    end
+
 (*Read files*)
 fun read_routes filename =
     let
@@ -61,6 +72,25 @@ fun read_routes filename =
               | SOME line => toPair(line) :: aux(TextIO.inputLine ins)
     in
         aux(TextIO.inputLine ins)
+    end
+
+fun create_route_nodes filename nodes =
+    let
+        val outs = TextIO.openOut filename
+        TextIO.output(outs,"ROUTE\tNODE\tDWELL")
+        val flattended_nodes = map (fn x=> flatten_path x) nodes
+        
+        fun aux snodes counter_value =
+            case snodes of
+                [] => TextIO.closeOut outs
+              | x::xs' => 
+                let
+                    val line = foldl (fn (y,acc) => acc ^ Int.toString counter_value  ^ "\t" ^ Int.toString y ^ "\t10\n" ) "" x
+                in
+                    (TextIO.output(outs,line); aux xs' (counter_value+1))
+                end
+    in
+        aux flattended_nodes 1
     end
 
 val generate_route = create_path o read_routes
