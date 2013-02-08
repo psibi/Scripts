@@ -77,7 +77,6 @@ fun read_routes filename =
 fun create_route_nodes filename nodes =
     let
         val outs = TextIO.openOut filename
-        TextIO.output(outs,"ROUTE\tNODE\tDWELL")
         val flattended_nodes = map (fn x=> flatten_path x) nodes
         
         fun aux snodes counter_value =
@@ -90,7 +89,12 @@ fun create_route_nodes filename nodes =
                     (TextIO.output(outs,line); aux xs' (counter_value+1))
                 end
     in
+        TextIO.output(outs,"ROUTE\tNODE\tDWELL\n");
         aux flattended_nodes 1
     end
 
 val generate_route = create_path o read_routes
+
+fun tasks inputfile outputfile =
+val paths = generate_route inputfile;
+create_route_nodes outputfile paths
