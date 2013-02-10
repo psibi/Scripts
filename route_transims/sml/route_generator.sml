@@ -57,7 +57,7 @@ fun flatten_path path_list =
             case xs of
                 [] => acc
               | (a,b)::[] => acc @ [b]
-              | (a,b)::(_,d)::tail => aux tail (acc @ [a,b,d])
+              | (a,b)::(_,d)::tail => if acc = [] then aux tail (acc @ [a,b,d]) else aux tail (acc @ [b,d])
     in
         aux path_list []
     end
@@ -93,8 +93,11 @@ fun create_route_nodes filename nodes =
         aux flattended_nodes 1
     end
 
-val generate_route = create_path o read_routes
+fun tasks input output =
+    let
+        val generate_route = create_path (read_routes input)
+        val create_output_file = create_route_nodes output generate_route 
+    in
+        create_output_file
+    end
 
-fun tasks inputfile outputfile =
-val paths = generate_route inputfile;
-create_route_nodes outputfile paths
