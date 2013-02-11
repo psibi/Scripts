@@ -13,3 +13,10 @@ Execution
 
 That will produce an ouput file of "dum" which will be your Route Node file for TRANSIMS. The roues.csv file is the 
 ANODE & BNODE column of Input Links file of TRANSIMS in csv format.
+
+In order to generate Route Header file, call create_route_header function. Example:
+
+      create_route_header "./Route_Header" 4000 4
+
+where 4000 is for 4000 distinct routes.
+      4 is for four Headway and offset fields.
