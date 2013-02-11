@@ -101,3 +101,27 @@ fun tasks input output =
         create_output_file
     end
 
+fun create_route_header filename no_of_routes no_of_headway  =
+    let
+        fun make_string no_of_headway str append_string =
+            case no_of_headway of
+                x => if x-1 <> 0
+                     then make_string (x-1) (str ^ append_string) append_string
+                     else str ^ "\n"
+        val outs = TextIO.openOut filename
+        val first_line = make_string no_of_headway "ROUTE\tNAME\tMODE\tHEADWAY\tOFFSET" "\tHEADWAY\tOFFSET"
+        val other_lines = make_string no_of_headway "10\t5" "\t10\t5"
+        fun aux no_of_routes acc =
+            case acc of
+                x => if x <> no_of_routes
+                     then 
+                         let
+                         in
+                             (TextIO.output(outs, Int.toString x ^ "\tRoute " ^ Int.toString x ^ "\tANY\t" ^ other_lines)); aux no_of_routes (x+1)
+                         end
+                     else TextIO.closeOut outs
+    in
+        TextIO.output(outs,first_line);
+        aux no_of_routes 0
+    end
+
