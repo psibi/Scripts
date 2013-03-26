@@ -62,7 +62,9 @@
 (setenv "PATH" (concat "/home/sibi/Downloads/bin:" (getenv "PATH")))
 (setq exec-path (cons "/home/sibi/Downloads/bin" exec-path))
 
-; -== Ensime ==- (Change path manually)
+; -== Ensime ==- (Change path manually) 
+;; Install scala-mode form ELPA. You need to install ensime separetly after that.
+;; This may help: http://jawher.net/2011/01/17/scala-development-environment-emacs-sbt-ensime/
 (require 'scala-mode)
 (add-to-list 'auto-mode-alist '("\.scala$" . scala-mode))
 (add-to-list 'load-path "/home/sibi/Downloads/Softwares/ensime_2.10.0-RC3-0.9.8.2/elisp/")
