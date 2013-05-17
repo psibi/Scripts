@@ -8,7 +8,7 @@ Execution
 ----------
 1) Currently in REPL Mode
   
-      use "route_generator.sml"
+      use "route_generator.sml";
       tasks "./routes.csv" "./dum"
 
 That will produce an ouput file of "dum" which will be your Route Node file for TRANSIMS. The roues.csv file is the 
