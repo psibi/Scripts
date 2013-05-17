@@ -45,7 +45,7 @@ fun create_path path_list =
 (*Convert string to int * int tuples*)
 fun toPair s =
     let
-      val s' = String.substring(s, 0, size s-2)
+      val s' = String.substring(s, 0, size s-1)
     in
       case List.mapPartial Int.fromString (String.tokens (fn c => c = #",") s') of
           a::b::[] => (a,b)
@@ -69,7 +69,8 @@ fun read_routes filename =
         fun aux(copt: string option) =
             case copt of
                 NONE => (TextIO.closeIn ins; [])
-              | SOME line => toPair(line) :: aux(TextIO.inputLine ins)
+              | SOME line => case (toPair line) of
+                                 (a,b) => if a <> b then (a,b) :: aux(TextIO.inputLine ins) else aux(TextIO.inputLine ins)
     in
         aux(TextIO.inputLine ins)
     end
@@ -113,7 +114,7 @@ fun create_route_header filename no_of_routes no_of_headway  =
         val other_lines = make_string no_of_headway "10\t5" "\t10\t5"
         fun aux no_of_routes acc =
             case acc of
-                x => if x <> (no_of_routes + 1
+                x => if x <> (no_of_routes + 1)
                      then 
                          let
                          in
