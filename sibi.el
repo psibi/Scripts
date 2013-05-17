@@ -61,3 +61,15 @@
 ;;SML MODE (Need to change the path manually. Set it where you can locate `sml`)
 (setenv "PATH" (concat "/home/sibi/Downloads/bin:" (getenv "PATH")))
 (setq exec-path (cons "/home/sibi/Downloads/bin" exec-path))
+
+; -== Ensime ==- (Change path manually) 
+;; Install scala-mode form ELPA. You need to install ensime separetly after that.
+;; This may help: http://jawher.net/2011/01/17/scala-development-environment-emacs-sbt-ensime/
+(require 'scala-mode)
+(add-to-list 'auto-mode-alist '("\.scala$" . scala-mode))
+(add-to-list 'load-path "/home/sibi/Downloads/Softwares/ensime_2.10.0-RC3-0.9.8.2/elisp/")
+(require 'ensime)
+(add-hook 'scala-mode-hook 'ensime-scala-mode-hook)
+(push "/usr/bin" exec-path)
+(push "/home/sibi/Downloads/Softwares/sbt/bin/" exec-path)
+
