@@ -5,6 +5,16 @@
 (require 'uniquify)
 (require 'ansi-color)
 (require 'recentf)
+(require 'package)
+
+(setq package-archives
+      '(("gnu"         . "http://elpa.gnu.org/packages/")
+        ("original"    . "http://tromey.com/elpa/")
+        ("org"         . "http://orgmode.org/elpa/")
+        ("marmalade"   . "http://marmalade-repo.org/packages/")
+        ("melpa" . "http://melpa.milkbox.net/packages/")))
+
+(package-initialize)
 
 (menu-bar-mode -1)
 (tool-bar-mode -1)
