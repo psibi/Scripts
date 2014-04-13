@@ -1,5 +1,9 @@
 #!/usr/bin/python
 
+#Note: Use your version of PyPump. Upstream seems to be broken and
+#i'm too lazy to figure out the new API for sending public tweets using
+#PyPump. Patches welcome!
+
 from pypump import PyPump
 import sys
 import tweepy
@@ -23,6 +27,8 @@ oauth_secret = ''
 
 pump = PyPump("psibi@identi.ca", key=consumer_key, secret=consumer_secret, token=oauth_token, token_secret=oauth_secret)
 note = pump.Note(status_text)
+a = pump.Address()
+note.set_to(a.createPublic())
 note.send()
 
 
